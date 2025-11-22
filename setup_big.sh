@@ -1,6 +1,7 @@
-git clone https://github.com/akamitch/prometheus.git && cd prometheus && sudo docker compose up -d
+git clone https://github.com/akamitch/prometheus.git 
 cp /home/ubuntu/prometheus/authorized_keys /home/ubuntu/.ssh/authorized_keys
 sudo sh /home/ubuntu/prometheus/install_docker.sh
+cd /home/ubuntu/prometheus && sudo docker compose up -d
 sudo sh /home/ubuntu/prometheus/iptables.sh
 sudo apt-get install -y iptables-persistent
 sudo iptables-save -t mangle | sudo tee /etc/iptables/rules.v4 > /dev/null
@@ -17,3 +18,5 @@ sudo apt install -y pipx
 pipx ensurepath 
 pipx install huggingface_hub
 /home/ubuntu/.local/bin/hf download Qwen/Qwen3-235B-A22B-Instruct-2507-FP8
+
+
