@@ -1,6 +1,5 @@
-git clone https://github.com/akamitch/prometheus.git 
 cp /home/ubuntu/prometheus/authorized_keys /home/ubuntu/.ssh/authorized_keys
-sudo sh /home/ubuntu/prometheus/install_docker.sh
+#sudo sh /home/ubuntu/prometheus/install_docker.sh
 cd /home/ubuntu/prometheus && sudo docker compose up -d
 sudo sh /home/ubuntu/prometheus/iptables.sh
 sudo apt-get install -y iptables-persistent
