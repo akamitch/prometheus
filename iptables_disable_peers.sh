@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# Очистка только таблицы mangle (Docker обычно не использует её)
+iptables -t mangle -F
+iptables -t mangle -X
+
+# === OUTPUT: исходящие соединения ===
+# Разрешить установленные соединения (ВАЖНО: первым!)
+iptables -t mangle -A OUTPUT -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# Разрешить локальный интерфейс
+iptables -t mangle -A OUTPUT -o lo -j ACCEPT
+
+# DNS (необходимо для резолвинга имён)
+iptables -t mangle -A OUTPUT -p udp --dport 53 -j ACCEPT -m comment --comment "DNS"
+iptables -t mangle -A OUTPUT -p tcp --dport 53 -j ACCEPT -m comment --comment "DNS"
+
+# Разрешённые IP для исходящих соединений
+iptables -t mangle -A OUTPUT -d 85.234.79.243 -j ACCEPT -m comment --comment "tower"
+iptables -t mangle -A OUTPUT -d 85.234.66.95 -j ACCEPT -m comment --comment "mordor"
+iptables -t mangle -A OUTPUT -d 85.234.66.129 -j ACCEPT -m comment --comment "prime"
+iptables -t mangle -A OUTPUT -d 85.234.66.223 -j ACCEPT -m comment --comment "quatro"
+iptables -t mangle -A OUTPUT -d 85.234.66.191 -j ACCEPT -m comment --comment "rock"
+iptables -t mangle -A OUTPUT -d 85.234.66.219 -j ACCEPT -m comment --comment "bingo"
+
+# Разрешить Docker интерфейсы (чтобы не сломать контейнеры)
+iptables -t mangle -A OUTPUT -o docker0 -j ACCEPT -m comment --comment "Docker bridge"
+iptables -t mangle -A OUTPUT -o br-+ -j ACCEPT -m comment --comment "Docker networks"
+
+# Блокировка всего остального исходящего трафика
+iptables -t mangle -A OUTPUT -j DROP
+
+# === PREROUTING: входящие соединения ===
+# Разрешить установленные соединения
+iptables -t mangle -A PREROUTING -m state --state ESTABLISHED,RELATED -j ACCEPT
+
+# Разрешённые подсети/IP для входящих соединений
+iptables -t mangle -A PREROUTING -s 62.106.76.0/24 -j ACCEPT -m comment --comment "Nick local"
+iptables -t mangle -A PREROUTING -s 186.22.19.0/24 -j ACCEPT -m comment --comment "Mitch local"
+iptables -t mangle -A PREROUTING -s 94.130.78.127/32 -j ACCEPT -m comment --comment "vpn europe"
+iptables -t mangle -A PREROUTING -s 158.69.184.200/32 -j ACCEPT -m comment --comment "vpn canada"
+iptables -t mangle -A PREROUTING -s 178.162.199.12/32 -j ACCEPT -m comment --comment "vpn aka-root back"
+
+# Разрешённые порты
+iptables -t mangle -A PREROUTING -p tcp -m tcp --dport 80 -j ACCEPT
+iptables -t mangle -A PREROUTING -p tcp -m tcp --dport 443 -j ACCEPT
+iptables -t mangle -A PREROUTING -p tcp -m tcp --dport 5000 -j ACCEPT -m comment --comment "gonka"
+iptables -t mangle -A PREROUTING -p tcp -m tcp --dport 26657 -j ACCEPT -m comment --comment "gonka"
+iptables -t mangle -A PREROUTING -p tcp -m tcp --dport 8000 -j ACCEPT -m comment --comment "gonka"
+
+# Блокировка всего остального на интерфейсе
+iptables -t mangle -A PREROUTING -i enP1s10f0np0 -j DROP
+
+echo "Правила iptables mangle применены успешно"
+
+# sudo iptables -t mangle -L OUTPUT -n --line-numbers
+# чтобы найти правило, когда его пора удалить
+# sudo iptables -t mangle -D OUTPUT 13
