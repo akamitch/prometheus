@@ -15,7 +15,7 @@ iptables -t mangle -A OUTPUT -o lo -j ACCEPT
 iptables -t mangle -A OUTPUT -p udp --dport 53 -j ACCEPT -m comment --comment "DNS"
 iptables -t mangle -A OUTPUT -p tcp --dport 53 -j ACCEPT -m comment --comment "DNS"
 
-# Разрешённые IP для исходящих соединений
+# Разрешённые IP для исходящих соединений, наши ноды
 iptables -t mangle -A OUTPUT -d 85.234.79.243 -j ACCEPT -m comment --comment "tower"
 iptables -t mangle -A OUTPUT -d 85.234.66.95 -j ACCEPT -m comment --comment "mordor"
 iptables -t mangle -A OUTPUT -d 85.234.66.129 -j ACCEPT -m comment --comment "prime"
