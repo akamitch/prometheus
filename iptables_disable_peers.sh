@@ -16,6 +16,10 @@ iptables -t mangle -A OUTPUT -p udp --dport 53 -j ACCEPT -m comment --comment "D
 iptables -t mangle -A OUTPUT -p tcp --dport 53 -j ACCEPT -m comment --comment "DNS"
 
 # Разрешённые IP для исходящих соединений, наши ноды
+iptables -t mangle -A OUTPUT -d 195.242.13.239 -j ACCEPT -m comment --comment "node2.gonka.ai"
+iptables -t mangle -A OUTPUT -d 89.169.103.180 -j ACCEPT -m comment --comment "node1.gonka.ai"
+iptables -t mangle -A OUTPUT -d 195.242.10.196 -j ACCEPT -m comment --comment "node3.gonka.ai"
+
 iptables -t mangle -A OUTPUT -d 85.234.79.243 -j ACCEPT -m comment --comment "tower"
 iptables -t mangle -A OUTPUT -d 85.234.66.95 -j ACCEPT -m comment --comment "mordor"
 iptables -t mangle -A OUTPUT -d 85.234.66.129 -j ACCEPT -m comment --comment "prime"
