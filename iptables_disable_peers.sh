@@ -59,4 +59,4 @@ echo "Правила iptables mangle применены успешно"
 
 # sudo iptables -t mangle -L OUTPUT -n --line-numbers
 # чтобы найти правило, когда его пора удалить
-# sudo iptables -t mangle -D OUTPUT 13
+# sudo iptables -t mangle -D OUTPUT 16

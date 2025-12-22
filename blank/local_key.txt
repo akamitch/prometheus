@@ -1,0 +1,1 @@
+./inferenced keys add node-name --keyring-backend file
