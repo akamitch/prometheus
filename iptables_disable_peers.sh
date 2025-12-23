@@ -45,12 +45,24 @@ iptables -t mangle -A PREROUTING -s 94.130.78.127/32 -j ACCEPT -m comment --comm
 iptables -t mangle -A PREROUTING -s 158.69.184.200/32 -j ACCEPT -m comment --comment "vpn canada"
 iptables -t mangle -A PREROUTING -s 178.162.199.12/32 -j ACCEPT -m comment --comment "vpn aka-root back"
 
+
 # Разрешённые порты
-iptables -t mangle -A PREROUTING -p tcp -m tcp --dport 80 -j ACCEPT
-iptables -t mangle -A PREROUTING -p tcp -m tcp --dport 443 -j ACCEPT
-iptables -t mangle -A PREROUTING -p tcp -m tcp --dport 5000 -j ACCEPT -m comment --comment "gonka"
-iptables -t mangle -A PREROUTING -p tcp -m tcp --dport 26657 -j ACCEPT -m comment --comment "gonka"
-iptables -t mangle -A PREROUTING -p tcp -m tcp --dport 8000 -j ACCEPT -m comment --comment "gonka"
+#iptables -t mangle -A PREROUTING -p tcp -m tcp --dport 80 -j ACCEPT
+#iptables -t mangle -A PREROUTING -p tcp -m tcp --dport 443 -j ACCEPT
+#iptables -t mangle -A PREROUTING -p tcp -m tcp --dport 5000 -j ACCEPT -m comment --comment "gonka"
+#iptables -t mangle -A PREROUTING -p tcp -m tcp --dport 26657 -j ACCEPT -m comment --comment "gonka"
+#iptables -t mangle -A PREROUTING -p tcp -m tcp --dport 8000 -j ACCEPT -m comment --comment "gonka"
+
+# входящие тоже только от разрешенных нод
+iptables -t mangle -A PREROUTING -s 195.242.13.239 -p tcp -m multiport --dports 5000,26657,8000 -j ACCEPT -m comment --comment "node2.gonka.ai"
+iptables -t mangle -A PREROUTING -s 89.169.103.180 -p tcp -m multiport --dports 5000,26657,8000 -j ACCEPT -m comment --comment "node1.gonka.ai"
+iptables -t mangle -A PREROUTING -s 195.242.10.196 -p tcp -m multiport --dports 5000,26657,8000 -j ACCEPT -m comment --comment "node3.gonka.ai"
+iptables -t mangle -A PREROUTING -s 85.234.79.243 -p tcp -m multiport --dports 5000,26657,8000 -j ACCEPT -m comment --comment "tower"
+iptables -t mangle -A PREROUTING -s 85.234.66.95 -p tcp -m multiport --dports 5000,26657,8000 -j ACCEPT -m comment --comment "mordor"
+iptables -t mangle -A PREROUTING -s 85.234.66.129 -p tcp -m multiport --dports 5000,26657,8000 -j ACCEPT -m comment --comment "prime"
+iptables -t mangle -A PREROUTING -s 85.234.66.223 -p tcp -m multiport --dports 5000,26657,8000 -j ACCEPT -m comment --comment "quatro"
+iptables -t mangle -A PREROUTING -s 85.234.66.191 -p tcp -m multiport --dports 5000,26657,8000 -j ACCEPT -m comment --comment "rock"
+iptables -t mangle -A PREROUTING -s 85.234.66.219 -p tcp -m multiport --dports 5000,26657,8000 -j ACCEPT -m comment --comment "bingo"
 
 # Блокировка всего остального на интерфейсе
 iptables -t mangle -A PREROUTING -i enP1s10f0np0 -j DROP

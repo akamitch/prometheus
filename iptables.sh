@@ -1,3 +1,6 @@
+# Очистка только таблицы mangle (Docker обычно не использует её)
+iptables -t mangle -F
+iptables -t mangle -X
 iptables -t mangle -I OUTPUT -j ACCEPT
 iptables -t mangle -I PREROUTING -m state --state ESTABLISHED,RELATED -j ACCEPT
 iptables -t mangle -I PREROUTING -s 62.106.76.0/24 -j ACCEPT -m comment --comment "Nick local"
