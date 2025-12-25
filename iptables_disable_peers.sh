@@ -65,7 +65,7 @@ iptables -t mangle -A PREROUTING -s 85.234.66.191 -p tcp -m multiport --dports 5
 iptables -t mangle -A PREROUTING -s 85.234.66.219 -p tcp -m multiport --dports 5000,26657,8000 -j ACCEPT -m comment --comment "bingo"
 
 # Блокировка всего остального на интерфейсе
-iptables -t mangle -A PREROUTING -i enP1s10f0np0 -j DROP
+iptables -t mangle -A PREROUTING -i eth0 -j DROP
 
 echo "Правила iptables mangle применены успешно"
 
