@@ -63,6 +63,10 @@ iptables -t mangle -A PREROUTING -s 85.234.66.129 -p tcp -m multiport --dports 5
 iptables -t mangle -A PREROUTING -s 85.234.66.223 -p tcp -m multiport --dports 5000,26657,8000 -j ACCEPT -m comment --comment "quatro"
 iptables -t mangle -A PREROUTING -s 85.234.66.191 -p tcp -m multiport --dports 5000,26657,8000 -j ACCEPT -m comment --comment "rock"
 iptables -t mangle -A PREROUTING -s 85.234.66.219 -p tcp -m multiport --dports 5000,26657,8000 -j ACCEPT -m comment --comment "bingo"
+iptables -t mangle -A PREROUTING -s 85.234.66.27 -p tcp -m multiport --dports 5000,26657,8000 -j ACCEPT -m comment --comment "aragorn"
+iptables -t mangle -A PREROUTING -s 93.119.168.209 -p tcp -m multiport --dports 5000,26657,8000 -j ACCEPT -m comment --comment "phoenix"
+iptables -t mangle -A PREROUTING -s 176.56.203.151 -p tcp -m multiport --dports 5000,26657,8000 -j ACCEPT -m comment --comment "freya"
+
 
 # Блокировка всего остального на интерфейсе
 iptables -t mangle -A PREROUTING -i eth0 -j DROP

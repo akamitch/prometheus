@@ -4,6 +4,6 @@
     --from WALLET_NAME..change \
     --keyring-backend file \
     --gas 2000000 \
-    --node http://node2.gonka.ai:8000/chain-rpc/
+    --node http://tower.gonka.top:8000/chain-rpc/
 
 
