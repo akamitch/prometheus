@@ -1,0 +1,3 @@
+pruning = "custom"
+pruning-keep-recent = "1000"
+pruning-interval    = "100"

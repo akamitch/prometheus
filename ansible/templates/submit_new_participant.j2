@@ -1,0 +1,9 @@
+./inferenced tx inference submit-new-participant \
+    http://{{ inventory_hostname }}:8000 \
+    --validator-key {{ consensus_key }} \
+    --keyring-backend file \
+    --unordered \
+    --from {{ key_name }} \
+    --timeout-duration 1m \
+    --node http://tower.gonka.top:8000/chain-rpc/ \
+    --chain-id gonka-mainnet

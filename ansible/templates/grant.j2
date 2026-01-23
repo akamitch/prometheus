@@ -1,0 +1,7 @@
+./inferenced tx inference grant-ml-ops-permissions \
+    {{ key_name }} \
+    {{ warm_key_gonka_address }} \
+    --from {{ key_name }} \
+    --keyring-backend file \
+    --gas 2000000 \
+    --node http://node2.gonka.ai:8000/chain-rpc/

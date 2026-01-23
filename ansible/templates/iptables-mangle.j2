@@ -1,0 +1,23 @@
+*mangle
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:FORWARD ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+
+-A OUTPUT -j ACCEPT
+-A PREROUTING -m state --state ESTABLISHED,RELATED -j ACCEPT
+-A PREROUTING -s 62.106.76.0/24 -j ACCEPT -m comment --comment "Nick local"
+-A PREROUTING -s 186.22.19.0/24 -j ACCEPT -m comment --comment "Mitch local"
+-A PREROUTING -s 94.130.78.127/32 -j ACCEPT -m comment --comment "vpn europe"
+-A PREROUTING -s 158.69.184.200/32 -j ACCEPT -m comment --comment "vpn canada"
+-A PREROUTING -s 178.162.199.12/32 -j ACCEPT -m comment --comment "vpn aka-root back"
+-A PREROUTING -s 192.168.56.0/24 -j ACCEPT -m comment --comment "Vagrant local network"
+-A PREROUTING -p tcp -m tcp --dport 22 -j ACCEPT
+-A PREROUTING -p tcp -m tcp --dport 80 -j ACCEPT
+-A PREROUTING -p tcp -m tcp --dport 443 -j ACCEPT
+-A PREROUTING -p tcp -m tcp --dport 5000 -j ACCEPT -m comment --comment "gonka"
+-A PREROUTING -p tcp -m tcp --dport 26657 -j ACCEPT -m comment --comment "gonka"
+-A PREROUTING -p tcp -m tcp --dport 8000 -j ACCEPT -m comment --comment "gonka"
+-A PREROUTING -i {{ external_interface }} -j DROP
+COMMIT
