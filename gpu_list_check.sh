@@ -1,1 +1,1 @@
-nvidia-smi --query-gpu=index,serial,name --format=csv,noheader | while read l; do s=$(echo "$l"|cut -d, -f2|tr -d ' '); grep -q "$s" ~/tests/bad_gpu.txt 2>/dev/null && echo "$l  ⚠️ BAD" || echo "$l"; done
+nvidia-smi --query-gpu=index,serial,name --format=csv,noheader | while read l; do s=$(echo "$l"|cut -d, -f2|tr -d ' '); grep -q "$s" ~/prometheusbad_gpu.txt 2>/dev/null && echo "$l  ⚠️ BAD" || echo "$l"; done
