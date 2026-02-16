@@ -11,7 +11,7 @@ iptables -t mangle -I PREROUTING -s 178.162.199.12/32 -j ACCEPT -m comment --com
 iptables -t mangle -I PREROUTING -p tcp -m tcp --dport 80 -j ACCEPT
 iptables -t mangle -I PREROUTING -p tcp -m tcp --dport 443 -j ACCEPT
 iptables -t mangle -I PREROUTING -p tcp -m tcp --dport 5000 -j ACCEPT -m comment --comment "gonka"
-iptables -t mangle -I PREROUTING -p tcp -m tcp --dport 26657 -j ACCEPT -m comment --comment "gonka"
+#iptables -t mangle -I PREROUTING -p tcp -m tcp --dport 26657 -j ACCEPT -m comment --comment "gonka"
 iptables -t mangle -I PREROUTING -p tcp -m tcp --dport 8000 -j ACCEPT -m comment --comment "gonka"
 iptables -t mangle -A PREROUTING -i eth0 -j DROP
 
