@@ -1,4 +1,0 @@
-UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx /mnt/ssd ext4 defaults,nofail 0 2
-
-
-UUID=0685b05c-df68-40d2-8bf8-192e324bc2f5 /mnt/ssd2 ext4 defaults,nofail 0 2
