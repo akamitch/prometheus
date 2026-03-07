@@ -1,1 +1,2 @@
-./inferenced keys add node-name --keyring-backend file
+./inferenced keys add net4_gonzo --keyring-backend file
+
