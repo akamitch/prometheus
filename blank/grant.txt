@@ -12,3 +12,16 @@
   --node http://node1.gonka.ai:8000/chain-rpc/ \
   --chain-id gonka-mainnet
 
+Верифицировать для Dem пулл
+./inferenced tx bank send WALLET_NAME gonka15tywu0xmcrq5y02tsqxawqfr4fq2uzggveqxe7 100ngonka --keyring-backend file     --node http://node1.gonka.ai:8000/chain-rpc/ --chain-id gonka-mainnet --yes
+
+
+Добавить домен в Description
+
+./inferenced tx staking edit-validator \
+ --chain-id="gonka-mainnet" \
+ --from WALLET_NAME \
+ --website https:/gonka.top \
+ --keyring-backend file \
+ --node http://node1.gonka.ai:8000/chain-rpc/ \
+ --yes
