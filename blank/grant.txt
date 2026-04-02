@@ -1,26 +1,36 @@
+~/Crypto/gonka.ai/servers/gonka-top/grant.sh \
+WALLET_NAME=wallleeee1 \
+GONKA_WARM_ADDRESS=gonka1wvv656pt2d8x2khcvytqeessck5uzjnxzmmm
+
+# Разрешить майнить теплому ключу ноды от имени холодного
 ./inferenced tx inference grant-ml-ops-permissions \
-    WALLET_NAME..change \
-    gonk....change \
-    --from WALLET_NAME..change \
+    <WALLET_NAME> \
+    <GONKA_WARM_ADDRESS> \
+    --from <WALLET_NAME> \
     --keyring-backend file \
     --gas 2000000 \
     --node http://node1.gonka.ai:8000/chain-rpc/
 
-./inferenced tx collateral deposit-collateral 10000ngonka \
-  --from WALLET_NAME \
+# Внести залог
+./inferenced tx collateral deposit-collateral 1000000ngonka \
+  --from <WALLET_NAME> \
   --keyring-backend file \
   --node http://node1.gonka.ai:8000/chain-rpc/ \
-  --chain-id gonka-mainnet
+  --chain-id gonka-mainnet \
+  --yes
 
-Верифицировать для Dem пулл
-./inferenced tx bank send WALLET_NAME gonka15tywu0xmcrq5y02tsqxawqfr4fq2uzggveqxe7 100ngonka --keyring-backend file     --node http://node1.gonka.ai:8000/chain-rpc/ --chain-id gonka-mainnet --yes
+#Верифицировать для Dem пулл
+./inferenced tx bank send <WALLET_NAME> gonka15tywu0xmcrq5y02tsqxawqfr4fq2uzggveqxe7 100ngonka \
+--keyring-backend file \    
+--node http://node1.gonka.ai:8000/chain-rpc/ \
+--chain-id gonka-mainnet 
+--yes
 
 
-Добавить домен в Description
-
+#Добавить домен в Description
 ./inferenced tx staking edit-validator \
  --chain-id="gonka-mainnet" \
- --from WALLET_NAME \
+ --from <WALLET_NAME> \
  --website https:/gonka.top \
  --keyring-backend file \
  --node http://node1.gonka.ai:8000/chain-rpc/ \
