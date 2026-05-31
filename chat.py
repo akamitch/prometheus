@@ -21,14 +21,11 @@ ENDPOINT = "http://localhost:5050/v1/chat/completions"
 MODEL = "MiniMaxAI/MiniMax-M2.7"
 MAX_TOKENS = 4096
 
-# State
 history = []
 show_reasoning = False
 
 
 def stream_response(messages):
-    """Send messages to vLLM, stream response, print tokens as they arrive.
-    Returns the full assistant message (content only, without reasoning)."""
     payload = json.dumps({
         "model": MODEL,
         "messages": messages,
@@ -52,7 +49,7 @@ def stream_response(messages):
                 line = raw_line.decode("utf-8", errors="replace").strip()
                 if not line.startswith("data: "):
                     continue
-                data = line[6:]  # strip "data: "
+                data = line[6:]
                 if data == "[DONE]":
                     break
                 try:
@@ -62,7 +59,6 @@ def stream_response(messages):
 
                 delta = chunk.get("choices", [{}])[0].get("delta", {})
 
-                # Reasoning blocks (model's internal thinking)
                 if "reasoning" in delta and delta["reasoning"]:
                     if show_reasoning:
                         if not reasoning_label_shown:
@@ -71,10 +67,9 @@ def stream_response(messages):
                         print(delta["reasoning"], end="", flush=True)
                     in_reasoning = True
 
-                # Regular content (final answer)
                 if "content" in delta and delta["content"]:
                     if in_reasoning and show_reasoning:
-                        print("\033[0m\n", end="", flush=True)  # close dim formatting
+                        print("\033[0m\n", end="", flush=True)
                     in_reasoning = False
                     print(delta["content"], end="", flush=True)
                     full_content += delta["content"]
@@ -89,12 +84,11 @@ def stream_response(messages):
     if show_reasoning and reasoning_label_shown and not full_content:
         print("\033[0m", end="", flush=True)
 
-    print()  # final newline
+    print()
     return full_content
 
 
 def chat_once(question):
-    """Add user question to history, get streamed reply, store reply in history."""
     history.append({"role": "user", "content": question})
     reply = stream_response(history)
     if reply:
@@ -102,32 +96,21 @@ def chat_once(question):
 
 
 def main():
-    global show_reasoning
+    global ENDPOINT, MODEL, show_reasoning
 
     parser = argparse.ArgumentParser(
         description="Interactive streaming chat client for gonka ML nodes",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog=__doc__,
     )
-    parser.add_argument(
-        "question", nargs="*",
-        help="initial question (optional); if omitted, starts interactive immediately"
-    )
-    parser.add_argument(
-        "--endpoint", default=ENDPOINT,
-        help=f"vLLM endpoint (default: {ENDPOINT})"
-    )
-    parser.add_argument(
-        "--model", default=MODEL,
-        help=f"model id (default: {MODEL})"
-    )
-    parser.add_argument(
-        "--reasoning", action="store_true",
-        help="show reasoning blocks from the start"
-    )
+    parser.add_argument("question", nargs="*",
+        help="initial question (optional)")
+    parser.add_argument("--endpoint", default=ENDPOINT,
+        help=f"vLLM endpoint (default: {ENDPOINT})")
+    parser.add_argument("--model", default=MODEL,
+        help=f"model id (default: {MODEL})")
+    parser.add_argument("--reasoning", action="store_true",
+        help="show reasoning blocks from the start")
     args = parser.parse_args()
 
-    global ENDPOINT, MODEL
     ENDPOINT = args.endpoint
     MODEL = args.model
     show_reasoning = args.reasoning
@@ -135,14 +118,12 @@ def main():
     print(f"\033[2m# Connected to {ENDPOINT} | model: {MODEL}")
     print(f"# /exit to quit, /reset to clear history, /reasoning to toggle thinking\033[0m\n")
 
-    # If question passed as arg, answer it first
     if args.question:
         initial = " ".join(args.question)
         print(f"\033[1m> {initial}\033[0m")
         chat_once(initial)
         print()
 
-    # Then loop for follow-up questions
     while True:
         try:
             question = input("\033[1m> \033[0m").strip()
@@ -152,7 +133,6 @@ def main():
 
         if not question:
             continue
-
         if question in ("/exit", "/quit"):
             break
         if question == "/reset":
@@ -171,3 +151,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
